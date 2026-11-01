@@ -1,80 +1,63 @@
-// @ts-nocheck
-import * as THREE from 'three'
-
-import Gl from '@/engine/Gl'
-
+import * as THREE from 'three';
+import Gl from '@/engine/Gl';
 export function CasePhysicalMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.MeshStandardMaterial({
-    //
-    ..._params,
-    transparent: true,
-    // side: THREE.DoubleSide,
-  })
-
-  /* 
-    Uniforms
-  */
-  const uniforms = {
-    uPosition: _uniforms.uPosition ? _uniforms.uPosition : new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
-    uFresnelTransition: new THREE.Uniform(3),
-    uColorTransition: new THREE.Uniform(3),
-    uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
-    uEnvIntensity: new THREE.Uniform(1.5),
-
-    tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
-    tMatcapMask: new THREE.Uniform(gl.assets.textures.case.matcapMask),
-
-    COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-  }
-
-  /* 
-    Shader
-  */
-  material.onBeforeCompile = (_shader) => {
-    // console.log('VERTEX SHADER', _shader.vertexShader)
-    // console.log('FRAGMENT SHADER', _shader.fragmentShader)
-    /* 
+    const gl = new Gl();
+    const material = new THREE.MeshStandardMaterial({
+        //
+        ..._params,
+        transparent: true,
+        // side: THREE.DoubleSide,
+    });
+    /*
       Uniforms
     */
-    _shader.uniforms.uPosition = uniforms.uPosition
-    _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition
-    _shader.uniforms.uColorTransition = uniforms.uColorTransition
-    _shader.uniforms.uEnvColor = uniforms.uEnvColor
-    _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity
-
-    _shader.uniforms.tMatcap = uniforms.tMatcap
-    _shader.uniforms.tMatcapMask = uniforms.tMatcapMask
-
-    _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL
-    /* 
-      Vertex
+    const uniforms = {
+        uPosition: _uniforms.uPosition ? _uniforms.uPosition : new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+        uFresnelTransition: new THREE.Uniform(3),
+        uColorTransition: new THREE.Uniform(3),
+        uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
+        uEnvIntensity: new THREE.Uniform(1.5),
+        tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
+        tMatcapMask: new THREE.Uniform(gl.assets.textures.case.matcapMask),
+        COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+    };
+    /*
+      Shader
     */
-    _shader.vertexShader = _shader.vertexShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+    material.onBeforeCompile = (_shader) => {
+        // console.log('VERTEX SHADER', _shader.vertexShader)
+        // console.log('FRAGMENT SHADER', _shader.fragmentShader)
+        /*
+          Uniforms
+        */
+        _shader.uniforms.uPosition = uniforms.uPosition;
+        _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition;
+        _shader.uniforms.uColorTransition = uniforms.uColorTransition;
+        _shader.uniforms.uEnvColor = uniforms.uEnvColor;
+        _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity;
+        _shader.uniforms.tMatcap = uniforms.tMatcap;
+        _shader.uniforms.tMatcapMask = uniforms.tMatcapMask;
+        _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL;
+        /*
+          Vertex
+        */
+        _shader.vertexShader = _shader.vertexShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         // varying vec3 vWorldPosition;
         varying vec3 vTransformed;
-      `
-    )
-
-    _shader.vertexShader = _shader.vertexShader.replace(
-      '#include <fog_vertex>',
-      /* glsl */ `
+      `);
+        _shader.vertexShader = _shader.vertexShader.replace('#include <fog_vertex>', 
+        /* glsl */ `
         #include <fog_vertex>
         // vWorldPosition = worldPosition.xyz;
         vTransformed = transformed;
-      `
-    )
-
-    /* 
-      Fragment
-    */
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+      `);
+        /*
+          Fragment
+        */
+        _shader.fragmentShader = _shader.fragmentShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         // varying vec3 vWorldPosition;
         varying vec3 vTransformed;
@@ -92,12 +75,9 @@ export function CasePhysicalMaterial(_params, _uniforms) {
 
         const float TRANSITION_SIZE_FRESNEL = 1.5;
         const float TRANSITION_SIZE_COLOR = 0.75;
-      `
-    )
-
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      '#include <dithering_fragment>',
-      /* glsl */ `
+      `);
+        _shader.fragmentShader = _shader.fragmentShader.replace('#include <dithering_fragment>', 
+        /* glsl */ `
         #include <dithering_fragment>
 
         /* 
@@ -153,81 +133,65 @@ export function CasePhysicalMaterial(_params, _uniforms) {
         vec3 bottomDiffuse = (diffuseColor.rgb + outgoingLight); // pow(diffuseColor.rgb * vec3(0.9, 1.0, 0.9), vec3(1.5)) + outgoingLight;
 
         gl_FragColor = vec4( mix(bottomDiffuse, finalColor, textureMatcapMask) * ambientOcclusion, max(fresnelAlpha, colorAlpha) );
-      `
-    )
-  }
-
-  material.customProgramCacheKey = () => Math.random().toString()
-
-  material.uniforms = uniforms
-
-  return material
+      `);
+    };
+    material.customProgramCacheKey = () => Math.random().toString();
+    material.uniforms = uniforms;
+    return material;
 }
-
 export function EarphoneGlassMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.MeshStandardMaterial({
-    //
-    ..._params,
-    transparent: true,
-    // side: THREE.DoubleSide,
-  })
-
-  /* 
-    Uniforms
-  */
-  const uniforms = {
-    tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
-    tEmissiveMask: new THREE.Uniform(gl.assets.textures.headphones.emissiveMask),
-    tFluidCursor: new THREE.Uniform(null),
-
-    uEmissiveTransition: new THREE.Uniform(0),
-    uEmissiveHover: new THREE.Uniform(0),
-    uFresnelTransition: new THREE.Uniform(0),
-    uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
-    uEnvIntensity: new THREE.Uniform(1.5),
-
-    COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-  }
-
-  /* 
-    Shader
-  */
-  material.onBeforeCompile = (_shader) => {
-    // console.log('VERTEX SHADER', _shader.vertexShader)
-    // console.log('FRAGMENT SHADER', _shader.fragmentShader)
-    /* 
+    const gl = new Gl();
+    const material = new THREE.MeshStandardMaterial({
+        //
+        ..._params,
+        transparent: true,
+        // side: THREE.DoubleSide,
+    });
+    /*
       Uniforms
     */
-
-    _shader.uniforms.tMatcap = uniforms.tMatcap
-    _shader.uniforms.tEmissiveMask = uniforms.tEmissiveMask
-    _shader.uniforms.tFluidCursor = uniforms.tFluidCursor
-    _shader.uniforms.uEmissiveTransition = uniforms.uEmissiveTransition
-    _shader.uniforms.uEmissiveHover = uniforms.uEmissiveHover
-    _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition
-    _shader.uniforms.uEnvColor = uniforms.uEnvColor
-    _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity
-
-    _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL
-    /* 
-      Vertex
+    const uniforms = {
+        tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
+        tEmissiveMask: new THREE.Uniform(gl.assets.textures.headphones.emissiveMask),
+        tFluidCursor: new THREE.Uniform(null),
+        uEmissiveTransition: new THREE.Uniform(0),
+        uEmissiveHover: new THREE.Uniform(0),
+        uFresnelTransition: new THREE.Uniform(0),
+        uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
+        uEnvIntensity: new THREE.Uniform(1.5),
+        COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+    };
+    /*
+      Shader
     */
-    _shader.vertexShader = _shader.vertexShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+    material.onBeforeCompile = (_shader) => {
+        // console.log('VERTEX SHADER', _shader.vertexShader)
+        // console.log('FRAGMENT SHADER', _shader.fragmentShader)
+        /*
+          Uniforms
+        */
+        _shader.uniforms.tMatcap = uniforms.tMatcap;
+        _shader.uniforms.tEmissiveMask = uniforms.tEmissiveMask;
+        _shader.uniforms.tFluidCursor = uniforms.tFluidCursor;
+        _shader.uniforms.uEmissiveTransition = uniforms.uEmissiveTransition;
+        _shader.uniforms.uEmissiveHover = uniforms.uEmissiveHover;
+        _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition;
+        _shader.uniforms.uEnvColor = uniforms.uEnvColor;
+        _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity;
+        _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL;
+        /*
+          Vertex
+        */
+        _shader.vertexShader = _shader.vertexShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         // varying vec3 vWorldPosition;
         varying vec3 vTransformed;
         varying vec4 vNormalizedViewPosition;
         // varying float vFresnelDistance;
-      `
-    )
-
-    _shader.vertexShader = _shader.vertexShader.replace(
-      '#include <fog_vertex>',
-      /* glsl */ `
+      `);
+        _shader.vertexShader = _shader.vertexShader.replace('#include <fog_vertex>', 
+        /* glsl */ `
         // float fresnelDistance = distance(uFresnelPosition, worldPosition.xyz);
 
         #include <fog_vertex>
@@ -235,15 +199,12 @@ export function EarphoneGlassMaterial(_params, _uniforms) {
         vTransformed = transformed;
         vNormalizedViewPosition = projectionMatrix * mvPosition;
         // vFresnelDistance = smoothstep(0.75, 0.25, fresnelDistance);
-      `
-    )
-
-    /* 
-      Fragment
-    */
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+      `);
+        /*
+          Fragment
+        */
+        _shader.fragmentShader = _shader.fragmentShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         // varying vec3 vWorldPosition;
         varying vec3 vTransformed;
@@ -262,21 +223,15 @@ export function EarphoneGlassMaterial(_params, _uniforms) {
         uniform vec3 uEnvColor;
         uniform float uEnvIntensity;
        
-      `
-    )
-
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      'vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;',
-      /* glsl */ `
+      `);
+        _shader.fragmentShader = _shader.fragmentShader.replace('vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;', 
+        /* glsl */ `
         float textureEmissiveMask = 1.0 - texture2D( tEmissiveMask, vEmissiveMapUv ).r;
 
         vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance * min(1.0, textureEmissiveMask + max(uEmissiveTransition, uEmissiveHover));
-      `
-    )
-
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      '#include <dithering_fragment>',
-      /* glsl */ `
+      `);
+        _shader.fragmentShader = _shader.fragmentShader.replace('#include <dithering_fragment>', 
+        /* glsl */ `
         #include <dithering_fragment>
 
         /* 
@@ -321,95 +276,76 @@ export function EarphoneGlassMaterial(_params, _uniforms) {
         float finalAlpha = mix(baseAlpha, fresnelAlpha, fresnelMask);
 
         gl_FragColor = vec4(finalColor, finalAlpha);
-      `
-    )
-  }
-
-  material.customProgramCacheKey = () => Math.random().toString()
-
-  material.uniforms = uniforms
-
-  return material
+      `);
+    };
+    material.customProgramCacheKey = () => Math.random().toString();
+    material.uniforms = uniforms;
+    return material;
 }
-
 export function EarphoneBaseMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.MeshStandardMaterial({
-    //
-    ..._params,
-    transparent: true,
-    // side: THREE.DoubleSide,
-  })
-
-  /* 
-    Uniforms
-  */
-  const uniforms = {
-    COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-
-    uFresnelTransition: new THREE.Uniform(0),
-    uVolumeUpHover: new THREE.Uniform(0),
-    uVolumeDownHover: new THREE.Uniform(0),
-    uVolumeShadowUp: new THREE.Uniform(0),
-    uVolumeShadowDown: new THREE.Uniform(0),
-    uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
-    uEnvIntensity: new THREE.Uniform(15),
-
-    tFluidCursor: new THREE.Uniform(null),
-    tEmissiveMask: new THREE.Uniform(gl.assets.textures.headphones.emissiveMask),
-    tVolumeShadowMask: new THREE.Uniform(gl.assets.textures.headphones.volumeShadowMask),
-    tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
-  }
-
-  /* 
-    Shader
-  */
-  material.onBeforeCompile = (_shader) => {
-    /* 
+    const gl = new Gl();
+    const material = new THREE.MeshStandardMaterial({
+        //
+        ..._params,
+        transparent: true,
+        // side: THREE.DoubleSide,
+    });
+    /*
       Uniforms
     */
-    _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL
-    _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition
-    _shader.uniforms.uVolumeUpHover = uniforms.uVolumeUpHover
-    _shader.uniforms.uVolumeDownHover = uniforms.uVolumeDownHover
-    _shader.uniforms.uVolumeShadowUp = uniforms.uVolumeShadowUp
-    _shader.uniforms.uVolumeShadowDown = uniforms.uVolumeShadowDown
-    _shader.uniforms.uEnvColor = uniforms.uEnvColor
-    _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity
-
-    _shader.uniforms.tFluidCursor = uniforms.tFluidCursor
-    _shader.uniforms.tEmissiveMask = uniforms.tEmissiveMask
-    _shader.uniforms.tVolumeShadowMask = uniforms.tVolumeShadowMask
-    _shader.uniforms.tMatcap = uniforms.tMatcap
-
-    /* 
-      Vertex
+    const uniforms = {
+        COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+        uFresnelTransition: new THREE.Uniform(0),
+        uVolumeUpHover: new THREE.Uniform(0),
+        uVolumeDownHover: new THREE.Uniform(0),
+        uVolumeShadowUp: new THREE.Uniform(0),
+        uVolumeShadowDown: new THREE.Uniform(0),
+        uEnvColor: new THREE.Uniform(new THREE.Color(0x182d3d)),
+        uEnvIntensity: new THREE.Uniform(15),
+        tFluidCursor: new THREE.Uniform(null),
+        tEmissiveMask: new THREE.Uniform(gl.assets.textures.headphones.emissiveMask),
+        tVolumeShadowMask: new THREE.Uniform(gl.assets.textures.headphones.volumeShadowMask),
+        tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
+    };
+    /*
+      Shader
     */
-    _shader.vertexShader = _shader.vertexShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+    material.onBeforeCompile = (_shader) => {
+        /*
+          Uniforms
+        */
+        _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL;
+        _shader.uniforms.uFresnelTransition = uniforms.uFresnelTransition;
+        _shader.uniforms.uVolumeUpHover = uniforms.uVolumeUpHover;
+        _shader.uniforms.uVolumeDownHover = uniforms.uVolumeDownHover;
+        _shader.uniforms.uVolumeShadowUp = uniforms.uVolumeShadowUp;
+        _shader.uniforms.uVolumeShadowDown = uniforms.uVolumeShadowDown;
+        _shader.uniforms.uEnvColor = uniforms.uEnvColor;
+        _shader.uniforms.uEnvIntensity = uniforms.uEnvIntensity;
+        _shader.uniforms.tFluidCursor = uniforms.tFluidCursor;
+        _shader.uniforms.tEmissiveMask = uniforms.tEmissiveMask;
+        _shader.uniforms.tVolumeShadowMask = uniforms.tVolumeShadowMask;
+        _shader.uniforms.tMatcap = uniforms.tMatcap;
+        /*
+          Vertex
+        */
+        _shader.vertexShader = _shader.vertexShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         varying vec3 vTransformed;
         varying vec4 vNormalizedViewPosition;
-      `
-    )
-
-    _shader.vertexShader = _shader.vertexShader.replace(
-      '#include <fog_vertex>',
-      /* glsl */ `
+      `);
+        _shader.vertexShader = _shader.vertexShader.replace('#include <fog_vertex>', 
+        /* glsl */ `
         #include <fog_vertex>
         vTransformed = transformed;
         vNormalizedViewPosition = projectionMatrix * mvPosition;
-      `
-    )
-
-    /* 
-      Fragment
-    */
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      'varying vec3 vViewPosition;',
-      /* glsl */ `
+      `);
+        /*
+          Fragment
+        */
+        _shader.fragmentShader = _shader.fragmentShader.replace('varying vec3 vViewPosition;', 
+        /* glsl */ `
         varying vec3 vViewPosition;
         varying vec3 vTransformed;
         varying vec4 vNormalizedViewPosition;
@@ -428,12 +364,9 @@ export function EarphoneBaseMaterial(_params, _uniforms) {
         uniform sampler2D tMatcap;
 
         uniform vec3 COLOR_FRESNEL;
-      `
-    )
-
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      'vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;',
-      /* glsl */ `
+      `);
+        _shader.fragmentShader = _shader.fragmentShader.replace('vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;', 
+        /* glsl */ `
         vec3 textureEmissiveMask = texture2D( tEmissiveMask, vEmissiveMapUv ).rgb;
         vec3 textureVolumeShadowMask = texture2D( tVolumeShadowMask, vEmissiveMapUv ).rgb;
 
@@ -450,12 +383,9 @@ export function EarphoneBaseMaterial(_params, _uniforms) {
         float shadowDown = textureVolumeShadowMask.b * uVolumeShadowDown;
 
         vec3 outgoingLight = (uEnvColor * uEnvIntensity) * ambientOcclusion + (totalDiffuse - (shadowUp + shadowDown)) + totalSpecular + totalEmissiveRadiance * (hoverMaskUp + hoverMaskDown);
-      `
-    )
-
-    _shader.fragmentShader = _shader.fragmentShader.replace(
-      '#include <dithering_fragment>',
-      /* glsl */ `
+      `);
+        _shader.fragmentShader = _shader.fragmentShader.replace('#include <dithering_fragment>', 
+        /* glsl */ `
         #include <dithering_fragment>
 
         /* 
@@ -502,29 +432,21 @@ export function EarphoneBaseMaterial(_params, _uniforms) {
 
         gl_FragColor = vec4(finalColor, finalAlpha);
         // gl_FragColor = vec4(vTransformed, 1.0);
-      `
-    )
-  }
-
-  material.customProgramCacheKey = () => Math.random().toString()
-
-  material.uniforms = uniforms
-
-  return material
+      `);
+    };
+    material.customProgramCacheKey = () => Math.random().toString();
+    material.uniforms = uniforms;
+    return material;
 }
-
 export function CoreMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.ShaderMaterial({
-    uniforms: {
-      uTime: new THREE.Uniform(0.0),
-
-      COLOR_PURPLE: new THREE.Uniform(new THREE.Color(0xbec0fe)),
-
-      tNoise: new THREE.Uniform(gl.assets.textures.noise),
-    },
-    vertexShader: /* glsl */ `
+    const gl = new Gl();
+    const material = new THREE.ShaderMaterial({
+        uniforms: {
+            uTime: new THREE.Uniform(0.0),
+            COLOR_PURPLE: new THREE.Uniform(new THREE.Color(0xbec0fe)),
+            tNoise: new THREE.Uniform(gl.assets.textures.noise),
+        },
+        vertexShader: /* glsl */ `
       varying vec2 vUv;
       varying vec4 vViewPosition;
       varying vec3 vNormal;
@@ -536,7 +458,7 @@ export function CoreMaterial(_params, _uniforms) {
         vNormal = normalMatrix * normal;
       }
     `,
-    fragmentShader: /* glsl */ `
+        fragmentShader: /* glsl */ `
       varying vec2 vUv;
       varying vec4 vViewPosition;
       varying vec3 vNormal;
@@ -565,30 +487,25 @@ export function CoreMaterial(_params, _uniforms) {
         gl_FragColor = vec4(color, 1.0);
       }
     `,
-  })
-
-  return material
+    });
+    return material;
 }
-
 export function BloomMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.ShaderMaterial({
-    // color: 0xffffff,
-    transparent: true,
-    // blendColor: THREE.MultiplyBlending,
-    opacity: 0,
-    depthTest: false,
-    depthWrite: false,
-
-    // side: THREE.BackSide,
-    uniforms: {
-      tAlpha: new THREE.Uniform(gl.assets.textures.bloom),
-
-      uOpacity: new THREE.Uniform(0),
-      uTime: new THREE.Uniform(0.0),
-    },
-    vertexShader: /* glsl */ `
+    const gl = new Gl();
+    const material = new THREE.ShaderMaterial({
+        // color: 0xffffff,
+        transparent: true,
+        // blendColor: THREE.MultiplyBlending,
+        opacity: 0,
+        depthTest: false,
+        depthWrite: false,
+        // side: THREE.BackSide,
+        uniforms: {
+            tAlpha: new THREE.Uniform(gl.assets.textures.bloom),
+            uOpacity: new THREE.Uniform(0),
+            uTime: new THREE.Uniform(0.0),
+        },
+        vertexShader: /* glsl */ `
       varying vec2 vUv;
       
       void main() {
@@ -597,7 +514,7 @@ export function BloomMaterial(_params, _uniforms) {
         gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
       }
     `,
-    fragmentShader: /* glsl */ `
+        fragmentShader: /* glsl */ `
       varying vec2 vUv;
       uniform sampler2D tAlpha;
 
@@ -613,41 +530,36 @@ export function BloomMaterial(_params, _uniforms) {
         gl_FragColor = vec4(1.0, 1.0, 1.0, uOpacity * alpha - flicker * 0.025);
       }
     `,
-  })
-
-  return material
+    });
+    return material;
 }
-
 export function GoldMaterial(_params, _uniforms) {
-  const material = new THREE.MeshPhysicalMaterial({
-    //
-    ..._params,
-  })
-
-  return material
+    const material = new THREE.MeshPhysicalMaterial({
+        //
+        ..._params,
+    });
+    return material;
 }
-
 export function TubeMaterial(_params, _uniforms) {
-  const material = new THREE.ShaderMaterial({
-    // side: THREE.DoubleSide,
-    // color: 0xb2e0ff,
-    // wireframe: true,
-    transparent: true,
-    // opacity: 0.5,
-    uniforms: {
-      uColor: new THREE.Uniform(new THREE.Color(0xb2e0ff)),
-      uLineSize: new THREE.Uniform(0.0025),
-      uBokeh: new THREE.Uniform(0.0),
-    },
-    vertexShader: /* glsl */ `
+    const material = new THREE.ShaderMaterial({
+        // side: THREE.DoubleSide,
+        // color: 0xb2e0ff,
+        // wireframe: true,
+        transparent: true,
+        // opacity: 0.5,
+        uniforms: {
+            uColor: new THREE.Uniform(new THREE.Color(0xb2e0ff)),
+            uLineSize: new THREE.Uniform(0.0025),
+            uBokeh: new THREE.Uniform(0.0),
+        },
+        vertexShader: /* glsl */ `
       varying vec2 vUv;
       void main() {
         vUv = uv;
         gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
       }
     `,
-
-    fragmentShader: /* glsl */ `
+        fragmentShader: /* glsl */ `
       varying vec2 vUv;
 
       uniform vec3 uColor;
@@ -682,33 +594,28 @@ export function TubeMaterial(_params, _uniforms) {
         gl_FragColor = diffuseColor;
       }
     `,
-  })
-
-  return material
+    });
+    return material;
 }
-
 export function TouchPadMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.ShaderMaterial({
-    transparent: true,
-    // opacity: 0,
-    depthTest: false,
-    uniforms: {
-      uOpacity: new THREE.Uniform(0.0),
-      uTime: new THREE.Uniform(0.0),
-      uReveal: new THREE.Uniform(0.0),
-      uMouseUv: new THREE.Uniform(new THREE.Vector2(0.0, 0.0)),
-      uFrequency: new THREE.Uniform(1.0),
-
-      tNoise: new THREE.Uniform(gl.assets.textures.noise),
-      tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
-
-      COLOR_BASE: new THREE.Uniform(new THREE.Color(0xb4dee7).convertLinearToSRGB()),
-      COLOR_CORNERS: new THREE.Uniform(new THREE.Color(0x8bccda).convertLinearToSRGB()),
-      COLOR_VISUALISER: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-    },
-    vertexShader: /* glsl */ `
+    const gl = new Gl();
+    const material = new THREE.ShaderMaterial({
+        transparent: true,
+        // opacity: 0,
+        depthTest: false,
+        uniforms: {
+            uOpacity: new THREE.Uniform(0.0),
+            uTime: new THREE.Uniform(0.0),
+            uReveal: new THREE.Uniform(0.0),
+            uMouseUv: new THREE.Uniform(new THREE.Vector2(0.0, 0.0)),
+            uFrequency: new THREE.Uniform(1.0),
+            tNoise: new THREE.Uniform(gl.assets.textures.noise),
+            tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
+            COLOR_BASE: new THREE.Uniform(new THREE.Color(0xb4dee7).convertLinearToSRGB()),
+            COLOR_CORNERS: new THREE.Uniform(new THREE.Color(0x8bccda).convertLinearToSRGB()),
+            COLOR_VISUALISER: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+        },
+        vertexShader: /* glsl */ `
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec4 vViewPosition;
@@ -721,7 +628,7 @@ export function TouchPadMaterial(_params, _uniforms) {
         gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
       }
     `,
-    fragmentShader: /* glsl */ `
+        fragmentShader: /* glsl */ `
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec4 vViewPosition;
@@ -821,24 +728,20 @@ export function TouchPadMaterial(_params, _uniforms) {
         gl_FragColor = vec4(final + fresnel * 0.5, noise * smoothstep(0.0, 0.5, uReveal) * smoothstep(1.0, 0.8 + min(1.0 - visualiserDist, 0.15), dist));
       }
     `,
-  })
-
-  return material
+    });
+    return material;
 }
-
 export function SiliconeMaterial(_params, _uniforms) {
-  const gl = new Gl()
-
-  const material = new THREE.ShaderMaterial({
-    transparent: true,
-    side: THREE.DoubleSide,
-    uniforms: {
-      tDiffuse: new THREE.Uniform(gl.assets.textures.earphoneSilicone),
-      // tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
-
-      COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-    },
-    vertexShader: /* glsl */ `
+    const gl = new Gl();
+    const material = new THREE.ShaderMaterial({
+        transparent: true,
+        side: THREE.DoubleSide,
+        uniforms: {
+            tDiffuse: new THREE.Uniform(gl.assets.textures.earphoneSilicone),
+            // tMatcap: new THREE.Uniform(gl.assets.textures.matcap.glass),
+            COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+        },
+        vertexShader: /* glsl */ `
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec4 vViewPosition;
@@ -857,7 +760,7 @@ export function SiliconeMaterial(_params, _uniforms) {
         gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
       }
     `,
-    fragmentShader: /* glsl */ `
+        fragmentShader: /* glsl */ `
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec4 vViewPosition;
@@ -902,36 +805,29 @@ export function SiliconeMaterial(_params, _uniforms) {
         gl_FragColor = vec4(textureDiffuse + vLight, 1.0);
       }
     `,
-  })
-
-  return material
+    });
+    return material;
 }
-
 // export function SiliconeMaterial(_params, _uniforms) {
 //   const gl = new Gl()
-
 //   const material = new THREE.MeshPhysicalMaterial({
 //     //
 //     ..._params,
 //     transparent: true,
 //     // side: THREE.DoubleSide,
 //   })
-
 //   /*
 //     Uniforms
 //   */
 //   const uniforms = {
 //     COLOR_FRESNEL: new THREE.Uniform(new THREE.Color(0x60b2ff)),
 //   }
-
 //   /*
 //     Shader
 //   */
 //   material.onBeforeCompile = (_shader) => {
 //     _shader.uniforms.COLOR_FRESNEL = uniforms.COLOR_FRESNEL
-
 //     console.log(_shader.fragmentShader)
-
 //     /*
 //       Fragment
 //     */
@@ -939,26 +835,19 @@ export function SiliconeMaterial(_params, _uniforms) {
 //       'varying vec3 vViewPosition;',
 //       /* glsl */ `
 //         varying vec3 vViewPosition;
-
 //         uniform vec3 COLOR_FRESNEL;
 //       `
 //     )
-
 //     _shader.fragmentShader = _shader.fragmentShader.replace(
 //       '#include <dithering_fragment>',
 //       /* glsl */ `
 //         #include <dithering_fragment>
-
 //         vec3 bottomDiffuse = diffuseColor.rgb + outgoingLight; // pow(diffuseColor.rgb * vec3(0.9, 1.0, 0.9), vec3(1.5)) + outgoingLight;
-
 //         gl_FragColor = vec4(outgoingLight, 1.0 );
 //       `
 //     )
 //   }
-
 //   material.customProgramCacheKey = () => Math.random().toString()
-
 //   material.uniforms = uniforms
-
 //   return material
 // }
