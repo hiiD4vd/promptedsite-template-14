@@ -1,3 +1,4 @@
+import { mediaPlugin } from './scripts/media-plugin.ts';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import glsl from 'vite-plugin-glsl';
@@ -9,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), glsl()],
+  plugins: [mediaPlugin(), react(), glsl()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
