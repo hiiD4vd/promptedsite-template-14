@@ -1,12 +1,9 @@
-// @ts-nocheck
-import * as THREE from 'three'
-
+import * as THREE from 'three';
 export default class ShaderChunks {
-  constructor() {
-    THREE.ShaderChunk['PI'] = /* glsl */ `const float PI = 3.141592;`
-
-    // Add shder to three includes
-    THREE.ShaderChunk['barrelDistort'] = /* glsl */ `
+    constructor() {
+        THREE.ShaderChunk['PI'] = /* glsl */ `const float PI = 3.141592;`;
+        // Add shder to three includes
+        THREE.ShaderChunk['barrelDistort'] = /* glsl */ `
       vec2 barrelDistort(vec2 uv, float strength) {
         // Remap UVs from [0,1] to [-1,1]
         vec2 centeredUV = uv * 2.0 - 1.0;
@@ -20,15 +17,13 @@ export default class ShaderChunks {
         // Remap back to [0,1]
         return (distorted + 1.0) * 0.5;
       }
-    `
-
-    THREE.ShaderChunk['orthogonal'] = /* glsl */ `
+    `;
+        THREE.ShaderChunk['orthogonal'] = /* glsl */ `
       vec3 orthogonal(vec3 v) {
         return normalize(abs(v.x) > abs(v.z) ? vec3(-v.y, v.x, 0.0) : vec3(0.0, -v.z, v.y));
       }
-    `
-
-    THREE.ShaderChunk['simplex'] = /* glsl */ `
+    `;
+        THREE.ShaderChunk['simplex'] = /* glsl */ `
       //	Simplex 4D Noise 
       //	by Ian McEwan, Ashima Arts
       //
@@ -122,9 +117,8 @@ export default class ShaderChunks {
                     + dot(m1*m1, vec2( dot( p3, x3 ), dot( p4, x4 ) ) ) ) ;
 
       }
-    `
-
-    THREE.ShaderChunk['getSmallWave'] = /* glsl */ `
+    `;
+        THREE.ShaderChunk['getSmallWave'] = /* glsl */ `
       float getSmallWaves(vec3 pos, float noise) {
         float dist = pow(length(pos) * 0.95, 1.25 + pow(uFrequency * 3.0, 3.0));
         float wave = pow(sin(dist * 1.0 - uTime), 2.0) * smoothstep(2.0, 5.0, dist) * (0.5 + smoothstep(15.0, 2.5, dist) * 0.5);
@@ -132,17 +126,15 @@ export default class ShaderChunks {
 
         return wave;
       }
-    `
-
-    THREE.ShaderChunk['getBigWave'] = /* glsl */ `
+    `;
+        THREE.ShaderChunk['getBigWave'] = /* glsl */ `
       float getBigWave(vec3 pos) {
         float dist = pow(length(pos) * 0.95, 1.25);
 
         return smoothstep(0.0, 1.0, distance(length(pos), smoothstep(0.2, 1.0, uWaveTransition) * 7.5) * 0.25) * WAVE_STRENGTH * sin(uWaveTransition * 3.14) * smoothstep(2.0, 5.0, dist);
       }
-    `
-
-    THREE.ShaderChunk['conicGradient'] = /* glsl */ `
+    `;
+        THREE.ShaderChunk['conicGradient'] = /* glsl */ `
       float conicGradient(vec2 uv, float completion, float transition) {
         // Calculate the angle from the center
         float angle = -atan(uv.y, uv.x);
@@ -155,6 +147,6 @@ export default class ShaderChunks {
         // Create the gradient based on completion
         return final;
       }
-    `
-  }
+    `;
+    }
 }
