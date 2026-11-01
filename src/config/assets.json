@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "project": "promptedsite-template-14",
+  "release": "454731e6b40bf0f6",
+  "prefix": "templates/promptedsite-template-14/releases/454731e6b40bf0f6",
+  "baseUrl": "https://cdn.promptedsite.com/templates/promptedsite-template-14/releases/454731e6b40bf0f6",
+  "totalBytes": 3767346,
+  "files": {
+    "assets/audio/powerloop.mp3": {
+      "bytes": 1680195,
+      "sha256": "f65369d7d08c1ffe43f24e24af4c289f43bbbb12dd058a3406e2e98a360cd632",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/synthloop.mp3": {
+      "bytes": 400195,
+      "sha256": "b6f098f0baaab0c342ef4e62eddc88944e4ed0656f43672067226a86d95b0140",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/ui-menu-close.mp3": {
+      "bytes": 60603,
+      "sha256": "eba9e75ed5fc626e4bad84a538d7108642a04b089a1c6efac1fa6613ae85d178",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/ui-menu-open.mp3": {
+      "bytes": 60603,
+      "sha256": "81266d1de98aef599297a2816b7ca3a75a47bfa1979d928ed9d3f31b37a6ac91",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/ui-open-01.mp3": {
+      "bytes": 60603,
+      "sha256": "db3bc71ec02338ee067c18902fddc0463485ed94a78c789e8cb23d7fa9358529",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/ui-question-send.mp3": {
+      "bytes": 60603,
+      "sha256": "7da3c265d84067a24c7da0de32d5063a6004afe227377a29c955f3ab0a2a8786",
+      "contentType": "audio/mpeg"
+    },
+    "assets/audio/ui-reply.mp3": {
+      "bytes": 60603,
+      "sha256": "554144f66306d831c5903ea5d7e1f6644eaff0a6381e9e2a45260597e5e1b344",
+      "contentType": "audio/mpeg"
+    },
+    "assets/favicon.png": {
+      "bytes": 1550,
+      "sha256": "694919b6a0f483be602aa18ba506abe5f81dbff38d59309ad3c28aedd6fe4336",
+      "contentType": "image/png"
+    },
+    "assets/models/scene-258.glb": {
+      "bytes": 585984,
+      "sha256": "f29eb72a3110a7ed832af1239e28928443c6b615a2282fd261b81e088cdd3c80",
+      "contentType": "model/gltf-binary"
+    },
+    "assets/noise-transparent.png": {
+      "bytes": 11126,
+      "sha256": "21165fe94ad2db17fc299cc85f263b80819574674f2050d0466c2935e89b8628",
+      "contentType": "image/png"
+    },
+    "assets/placeholder.svg": {
+      "bytes": 3297,
+      "sha256": "16d6f71aec4950342f84908d2ddeaa7608bbf79a94d98cb3a530c846400a4f21",
+      "contentType": "image/svg+xml"
+    },
+    "assets/textures/bloom-12.webp": {
+      "bytes": 37580,
+      "sha256": "767ebab7e2a2f00e4702328aedff127dad8443a75964dbc0f0a819d3549074d8",
+      "contentType": "image/webp"
+    },
+    "assets/textures/case-alpha-ao-03.webp": {
+      "bytes": 13956,
+      "sha256": "bfa4e48a5ba8577096628591080e7c088c6105e41f068c410792e22737d9e451",
+      "contentType": "image/webp"
+    },
+    "assets/textures/case-bottom-diffuse-08.webp": {
+      "bytes": 21326,
+      "sha256": "78b86ae90ab5a694c7e4fe75d2f9339f26b91bd19e394f6b4dc1b6eec709d651",
+      "contentType": "image/webp"
+    },
+    "assets/textures/case-emissive-16.webp": {
+      "bytes": 1156,
+      "sha256": "03a1fbc0dac6e275f9c193d307788fea6b7700a0014abc118f27fa093dfa6a44",
+      "contentType": "image/webp"
+    },
+    "assets/textures/case-matcap-mask-01.webp": {
+      "bytes": 4308,
+      "sha256": "8dd29fcbab61ae25b3ef4c909d81a1363d1be83b5ec1606d9220ca97d4d87603",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-alpha-05.webp": {
+      "bytes": 1376,
+      "sha256": "3f821ae12393ce39d4eda8950b08430a7c64de9ffa0d1eb55ebf0b851bd22417",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-emissive-11.webp": {
+      "bytes": 13358,
+      "sha256": "f8041e5b0e0d1d914332424094607f1ba51a9e248e371d06e746f6081fcbf372",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-emissive-mask-06.webp": {
+      "bytes": 1746,
+      "sha256": "a3712729f85cf9983b0b7f774f1f455ba05e8f2cf43ef5771e4b10959a299b10",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-normal-10.webp": {
+      "bytes": 27470,
+      "sha256": "05d84ab83967985549cb640dd880794ae7351e9db42584a9529041eba07dfbf9",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-roughness-ao-03.webp": {
+      "bytes": 83898,
+      "sha256": "bd69ded28a7f072ecd38747d4e9ec7aafdb7915a4154105e07ab2510bf8e0311",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-silicone-19.webp": {
+      "bytes": 36170,
+      "sha256": "477da82ba4da92af8dc8103612aab6adfb9f936ac4109c9fb8f2cb5577feb3e5",
+      "contentType": "image/webp"
+    },
+    "assets/textures/headphone-volume-shadow-03.webp": {
+      "bytes": 774,
+      "sha256": "f07fdf123ef158fc6735b68168c4f091b022b8d0f173969c052e8a5fd9469988",
+      "contentType": "image/webp"
+    },
+    "assets/textures/matcap-glass-01.png": {
+      "bytes": 101459,
+      "sha256": "f7f5bfa659d94e453deda6dbc94e3e6a10e16ed752dd76a41a6f61dba6e3b842",
+      "contentType": "image/png"
+    },
+    "assets/textures/noise-r.png": {
+      "bytes": 191068,
+      "sha256": "034a58863a8cccb64ab1185a46e10b5d6b737c0123249103177279dd3b5ace90",
+      "contentType": "image/png"
+    },
+    "assets/webclip.png": {
+      "bytes": 42146,
+      "sha256": "fb811564b96ca1d6a3d60c25df9c0b70774b5f735465f4a893b9a61cc2fcc250",
+      "contentType": "image/png"
+    },
+    "favicon.svg": {
+      "bytes": 9522,
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66",
+      "contentType": "image/svg+xml"
+    },
+    "fonts/AzeretMono-Light.woff2": {
+      "bytes": 22664,
+      "sha256": "3d5682ca4219c78b9249cbfd6715fad97ab1955dc7b328cf7fce30ff0a3849f7",
+      "contentType": "font/woff2"
+    },
+    "fonts/AzeretMono-Regular.woff2": {
+      "bytes": 22608,
+      "sha256": "7a363bac8d298aca5158851348d0abf2be2589114a334574892a56f95bd07b53",
+      "contentType": "font/woff2"
+    },
+    "fonts/AzeretMono-SemiBold.woff2": {
+      "bytes": 22732,
+      "sha256": "d6f2367e1ef97203d72c4b26127bcb6884448398cbb1e6860e1ecf3ddd5d1e39",
+      "contentType": "font/woff2"
+    },
+    "fonts/Manrope-ExtraLight.woff2": {
+      "bytes": 29400,
+      "sha256": "106b4c1884d4c22cf53bc039d3f1f51c2185d18e8e62840d0ecd712a3a091e4b",
+      "contentType": "font/woff2"
+    },
+    "fonts/Manrope-Light.woff2": {
+      "bytes": 30952,
+      "sha256": "ac7be048de2f608c51895d76b873252a1f73df08311d6960086db075d15ab589",
+      "contentType": "font/woff2"
+    },
+    "fonts/Manrope-Medium.woff2": {
+      "bytes": 30412,
+      "sha256": "6533f8d2692ce6a5b25326be4ebc9a8e4782293fd1f7bae5582ed5b9bcab205a",
+      "contentType": "font/woff2"
+    },
+    "fonts/Manrope-Regular.woff2": {
+      "bytes": 30872,
+      "sha256": "a168566589aea323eb4a1ce2db396a47c79afcc4281f2e06fa6ccf6977612cb8",
+      "contentType": "font/woff2"
+    },
+    "icons.svg": {
+      "bytes": 5031,
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "contentType": "image/svg+xml"
+    }
+  }
+}
