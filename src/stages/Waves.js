@@ -1,49 +1,41 @@
-// @ts-nocheck
-import * as THREE from 'three'
-import gsap from '@/utils/gsap'
-import Gl from '@/engine/Gl'
-
+import * as THREE from 'three';
+import gsap from '@/utils/gsap';
+import Gl from '@/engine/Gl';
 export default class Waves {
-  constructor() {
-    this.gl = new Gl()
-
-    /* 
-      Instance
-    */
-    this.instance = new THREE.Group()
-
-    /* 
-      Flags
-    */
-    this.isAnimating = false
-
-    /* 
-      Global
-    */
-    this.globalSpeed = 1.0
-
-    /* 
-      Solid
-    */
-    this.geometry = new THREE.PlaneGeometry(30, 30, 256, 256)
-    this.material = new THREE.ShaderMaterial({
-      transparent: true,
-      // wireframe: true,
-      uniforms: {
-        uTime: new THREE.Uniform(0.0),
-        uWaveTransition: new THREE.Uniform(0.0),
-        uLightIntensity: new THREE.Uniform(1.0),
-        uIntensity: new THREE.Uniform(1.0),
-        uFrequency: new THREE.Uniform(1.0),
-        uLightDirection: new THREE.Uniform(new THREE.Vector3(3.0, 3.0, -1.0)),
-
-        tNoise: new THREE.Uniform(this.gl.assets.textures.noise),
-
-        COLOR_BASE: new THREE.Uniform(new THREE.Color(0x133153)),
-        COLOR_HIGHLIGHT: new THREE.Uniform(new THREE.Color(0x32526f)),
-        COLOR_LIGHT: new THREE.Uniform(new THREE.Color(0x60b2ff)),
-      },
-      vertexShader: /* glsl */ `
+    constructor() {
+        this.gl = new Gl();
+        /*
+          Instance
+        */
+        this.instance = new THREE.Group();
+        /*
+          Flags
+        */
+        this.isAnimating = false;
+        /*
+          Global
+        */
+        this.globalSpeed = 1.0;
+        /*
+          Solid
+        */
+        this.geometry = new THREE.PlaneGeometry(30, 30, 256, 256);
+        this.material = new THREE.ShaderMaterial({
+            transparent: true,
+            // wireframe: true,
+            uniforms: {
+                uTime: new THREE.Uniform(0.0),
+                uWaveTransition: new THREE.Uniform(0.0),
+                uLightIntensity: new THREE.Uniform(1.0),
+                uIntensity: new THREE.Uniform(1.0),
+                uFrequency: new THREE.Uniform(1.0),
+                uLightDirection: new THREE.Uniform(new THREE.Vector3(3.0, 3.0, -1.0)),
+                tNoise: new THREE.Uniform(this.gl.assets.textures.noise),
+                COLOR_BASE: new THREE.Uniform(new THREE.Color(0x133153)),
+                COLOR_HIGHLIGHT: new THREE.Uniform(new THREE.Color(0x32526f)),
+                COLOR_LIGHT: new THREE.Uniform(new THREE.Color(0x60b2ff)),
+            },
+            vertexShader: /* glsl */ `
         #include <orthogonal>
 
         varying vec2 vUv;
@@ -118,7 +110,7 @@ export default class Waves {
           vBigWave = bigWave;
         }
       `,
-      fragmentShader: /* glsl */ `
+            fragmentShader: /* glsl */ `
         varying vec2 vUv;
         varying vec2 vUvn;
         varying vec3 vNormal;
@@ -164,24 +156,21 @@ export default class Waves {
           // gl_FragColor = vec4(vec3(clamp(vLight * 0.4, 0.0, 1.0)), alpha);
         }
       `,
-    })
-
-    this.mesh = new THREE.Mesh(this.geometry, this.material)
-    this.mesh.rotation.x = -Math.PI * 0.425
-    this.mesh.position.set(0.114, 1.82 - 4, -0.48 - 1.5)
-    this.mesh.renderOrder = 1
-
-    this.instance.add(this.mesh)
-
-    /* 
-      Wireframe
-    */
-    this.wireframeMaterial = new THREE.ShaderMaterial({
-      transparent: true,
-      wireframe: true,
-      uniforms: this.material.uniforms,
-      depthTest: false,
-      vertexShader: /* glsl */ `
+        });
+        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.rotation.x = -Math.PI * 0.425;
+        this.mesh.position.set(0.114, 1.82 - 4, -0.48 - 1.5);
+        this.mesh.renderOrder = 1;
+        this.instance.add(this.mesh);
+        /*
+          Wireframe
+        */
+        this.wireframeMaterial = new THREE.ShaderMaterial({
+            transparent: true,
+            wireframe: true,
+            uniforms: this.material.uniforms,
+            depthTest: false,
+            vertexShader: /* glsl */ `
         #include <orthogonal>
 
         varying vec2 vUv;
@@ -234,7 +223,7 @@ export default class Waves {
          
         }
       `,
-      fragmentShader: /* glsl */ `
+            fragmentShader: /* glsl */ `
         varying vec2 vUv;
         varying float vTransitionLight;
 
@@ -247,85 +236,68 @@ export default class Waves {
           gl_FragColor.rgb = min(gl_FragColor.rgb, 0.65);
         }
       `,
-    })
-
-    this.wireframeMesh = new THREE.Mesh(new THREE.PlaneGeometry(30, 30, 54, 54), this.wireframeMaterial)
-    this.wireframeMesh.rotation.copy(this.mesh.rotation)
-    this.wireframeMesh.position.copy(this.mesh.position)
-    this.wireframeMesh.renderOrder = 2
-
-    this.instance.add(this.wireframeMesh)
-  }
-
-  triggerWave(_params) {
-    const params = {
-      direction: _params.direction !== undefined ? _params.direction : 1,
-      duration: _params.duration !== undefined ? _params.duration : 4.25,
-      ease: _params.ease !== undefined ? _params.ease : 'power2.inOut',
-      delay: _params.delay !== undefined ? _params.delay : 0,
-      intensity: _params.intensity !== undefined ? _params.intensity : 1.0,
-      lightIntensity: _params.lightIntensity !== undefined ? _params.lightIntensity : 1.0,
+        });
+        this.wireframeMesh = new THREE.Mesh(new THREE.PlaneGeometry(30, 30, 54, 54), this.wireframeMaterial);
+        this.wireframeMesh.rotation.copy(this.mesh.rotation);
+        this.wireframeMesh.position.copy(this.mesh.position);
+        this.wireframeMesh.renderOrder = 2;
+        this.instance.add(this.wireframeMesh);
     }
-
-    this.material.uniforms.uLightIntensity.value = params.lightIntensity
-    this.material.uniforms.uIntensity.value = params.intensity
-
-    if (params.direction === 1) {
-      gsap.fromTo(
-        this.material.uniforms.uWaveTransition,
-        {
-          value: 0.0,
-        },
-        {
-          value: 1,
-          delay: params.delay,
-          duration: params.duration,
-          ease: params.ease,
-          onStart: () => {
-            this.isAnimating = true
-          },
-          onUpdate: () => {
-            this.material.uniforms.uTime.value += Math.sin(this.material.uniforms.uWaveTransition.value * Math.PI) * this.gl.time.delta * 0.075
-          },
-          onComplete: () => {
-            this.isAnimating = false
-          },
+    triggerWave(_params) {
+        const params = {
+            direction: _params.direction !== undefined ? _params.direction : 1,
+            duration: _params.duration !== undefined ? _params.duration : 4.25,
+            ease: _params.ease !== undefined ? _params.ease : 'power2.inOut',
+            delay: _params.delay !== undefined ? _params.delay : 0,
+            intensity: _params.intensity !== undefined ? _params.intensity : 1.0,
+            lightIntensity: _params.lightIntensity !== undefined ? _params.lightIntensity : 1.0,
+        };
+        this.material.uniforms.uLightIntensity.value = params.lightIntensity;
+        this.material.uniforms.uIntensity.value = params.intensity;
+        if (params.direction === 1) {
+            gsap.fromTo(this.material.uniforms.uWaveTransition, {
+                value: 0.0,
+            }, {
+                value: 1,
+                delay: params.delay,
+                duration: params.duration,
+                ease: params.ease,
+                onStart: () => {
+                    this.isAnimating = true;
+                },
+                onUpdate: () => {
+                    this.material.uniforms.uTime.value += Math.sin(this.material.uniforms.uWaveTransition.value * Math.PI) * this.gl.time.delta * 0.075;
+                },
+                onComplete: () => {
+                    this.isAnimating = false;
+                },
+            });
         }
-      )
-    } else {
-      gsap.fromTo(
-        this.material.uniforms.uWaveTransition,
-        {
-          value: 1,
-        },
-        {
-          value: 0,
-          duration: 2.75,
-          ease: 'expo.inOut',
-          onStart: () => {
-            this.isAnimating = true
-          },
-          onUpdate: () => {
-            // this.material.uniforms.uTime.value -= Math.sin(this.material.uniforms.uWaveTransition.value * Math.PI) * 0.05
-          },
-          onComplete: () => {
-            this.isAnimating = false
-          },
+        else {
+            gsap.fromTo(this.material.uniforms.uWaveTransition, {
+                value: 1,
+            }, {
+                value: 0,
+                duration: 2.75,
+                ease: 'expo.inOut',
+                onStart: () => {
+                    this.isAnimating = true;
+                },
+                onUpdate: () => {
+                    // this.material.uniforms.uTime.value -= Math.sin(this.material.uniforms.uWaveTransition.value * Math.PI) * 0.05
+                },
+                onComplete: () => {
+                    this.isAnimating = false;
+                },
+            });
         }
-      )
     }
-  }
-
-  update() {
-    const normalizedFrequency = this.gl.audio.frequencies.synthLoop.current * 0.005
-
-    // console.log(this.gl.time.delta)
-
-    this.material.uniforms.uTime.value += (0.25 + this.globalSpeed * 0.75) * this.gl.time.delta * 0.01
-    this.material.uniforms.uTime.value += normalizedFrequency * this.gl.time.delta * 0.5
-
-    this.material.uniforms.uFrequency.value = normalizedFrequency
-
-    // console.log(this.gl.audio.analysers.synthLoop)
-  }
+    update() {
+        const normalizedFrequency = this.gl.audio.frequencies.synthLoop.current * 0.005;
+        // console.log(this.gl.time.delta)
+        this.material.uniforms.uTime.value += (0.25 + this.globalSpeed * 0.75) * this.gl.time.delta * 0.01;
+        this.material.uniforms.uTime.value += normalizedFrequency * this.gl.time.delta * 0.5;
+        this.material.uniforms.uFrequency.value = normalizedFrequency;
+        // console.log(this.gl.audio.analysers.synthLoop)
+    }
 }
