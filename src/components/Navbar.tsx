@@ -17,7 +17,7 @@ export const Navbar: React.FC = () => {
         </svg>
         <div>Promptedsite</div>
       </a>
-      <button aria-label="Mute Audio" data-label="Play audio,Mute audio" aria-pressed="false" type="button" className="sound-w">
+      <button aria-label="Play audio" aria-pressed="false" type="button" className="sound-w">
         <div>Sound</div>
         <div className="sound__btn">
           <span className="sound__inner">
@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
       </button>
       <nav id="main-nav" data-module="menu" aria-label="Main navigation" aria-expanded="false" className="navigation">
         <button id="menu-toggle" aria-label="Open main menu" aria-controls="main-nav" aria-expanded="false" type="button" className="nav__header">
-          <a tabIndex={-1} aria-hidden={true} href="/" aria-current="page" className="nav__logo-w mobile w-inline-block w--current">
+          <span aria-hidden={true} className="nav__logo-w mobile w-inline-block w--current">
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 14 14" fill="none" aria-hidden={true} className="nav__logo">
               <circle cx="12.967" cy="6.90747" r="0.599368" transform="rotate(90 12.967 6.90747)" fill="currentColor"></circle>
               <circle cx="0.599368" cy="0.599368" r="0.599368" transform="matrix(0 1 1 -3.69127e-08 0.226562 6.30811)" fill="currentColor"></circle>
@@ -44,7 +44,7 @@ export const Navbar: React.FC = () => {
               <circle cx="0.599368" cy="0.599368" r="0.599368" transform="matrix(0.5 -0.866026 -0.866026 -0.5 2.46484 5.37134)" fill="currentColor"></circle>
             </svg>
             <div>Promptedsite</div>
-          </a>
+          </span>
           <div className="menu__label">menu</div>
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 23 16" fill="none" aria-hidden={true} className="nav__burger">
             <circle cx="1.59766" cy="1.6709" r="1.25" fill="currentColor"></circle>
@@ -62,7 +62,7 @@ export const Navbar: React.FC = () => {
           <li className="nav__item"><a data-anchor="2" href="#" className="nav__link">Craft</a></li>
           <li className="nav__item"><a data-anchor="4" href="#" className="nav__link">Controls</a></li>
           <li className="nav__item"><a data-anchor="5" href="#" className="nav__link">Power</a></li>
-          <li className="nav__item"><a href="/specs" className="nav__link">Specs</a></li>
+          <li className="nav__item"><a href="#specs" className="nav__link">Specs</a></li>
         </ul>
       </nav>
     </header>
