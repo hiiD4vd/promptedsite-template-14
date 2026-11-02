@@ -1,83 +1,32 @@
-# Promptedsite Earbuds
+# Earbuds — Immersive Audio Experience
 
-Interactive 3D web experience for **Promptedsite Earbuds** featuring real-time WebGL rendering, custom GLSL shaders, procedural audio synthesis, and interactive spatial sound visualization.
+Typed React interface plus an explicit JavaScript scene engine. Engine JavaScript is not covered by TypeScript checking. Specifications are provided in an accessible panel because the supplied source did not implement the former /specs route.
 
-## 🎧 Overview
+## Run
 
-Promptedsite Earbuds delivers an immersive high-fidelity web experience showcasing next-generation audio engineering:
-- **Real-Time 3D Rendering**: High-detail 3D earbud & charging case models with DRACO geometry compression, custom environment maps, dynamic lighting, and matcap reflections.
-- **Interactive Audio**: Integrated Web Audio synthesizer loops, sound effects, and spatial audio wave visualization.
-- **Fluid Layout & Scroll Dynamics**: Smooth inertial scrolling with Lenis paired with multi-layer GSAP camera timelines.
-- **Component Architecture**: Built with React 19, TypeScript, and Vite.
+Use Node.js 22+ and npm.
 
-## 🚀 Tech Stack
-
-- **Framework**: React 19 + TypeScript
-- **Bundler & Tooling**: Vite, Oxlint
-- **3D Graphics**: Three.js, DRACOLoader, vite-plugin-glsl
-- **Shaders**: Custom vertex & fragment GLSL shaders
-- **Animation**: GSAP (GreenSock Animation Platform)
-- **Smooth Scroll**: Lenis
-- **Interactive Typography**: TagCloud 3D sphere
-
-## 📂 Project Structure
-
-```text
-├── public/
-│   ├── assets/
-│   │   ├── audio/           # Sound loops and interface audio
-│   │   ├── draco/           # DRACO decoder binaries
-│   │   ├── models/          # 3D glTF/GLB models
-│   │   └── textures/        # PBR material textures & masks
-│   └── fonts/               # Modern typography (Manrope, Azeret Mono)
-├── src/
-│   ├── components/          # React layout components
-│   ├── engine/              # Three.js WebGL & Audio engine singletons
-│   ├── hooks/               # React hooks (useWebGL, useScroll, useResize)
-│   ├── modules/             # UI interaction controllers & GSAP animations
-│   ├── shaders/             # Custom GLSL vertex & fragment shaders
-│   ├── stages/              # WebGL scene graph & camera controllers
-│   ├── styles/              # Global styles & design system tokens
-│   └── utils/               # Math, environment, and animation utilities
-```
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Node.js (v18.0.0 or later recommended)
-- npm or yarn / pnpm
-
-### Installation
-
-```bash
-npm install
-```
-
-### Development
-
-Start the local development server:
-
-```bash
+```sh
+npm ci
 npm run dev
 ```
 
-### Production Build
+Production media loads from the versioned public R2 manifest in src/config/assets.json. No cloud credentials are required or included.
 
-Compile TypeScript and build the production bundle:
+## Browser preview
 
-```bash
-npm run build
-```
-
-The compiled assets will be output to the `dist/` directory.
-
-### Preview Production
-
-```bash
+```sh
+npm run build:artifact
 npm run preview
 ```
 
-## 📄 License
+The complete dist/ folder contains same-origin media verified against the release checksums. Mount the entire folder in a preview capable of serving companion files and WebGL. A shell localhost address is not a preview accessible from another device. Platform CSP or missing Artifact capabilities cannot be fixed by a prompt.
 
-Private repository. All rights reserved.
+## Build
+
+```sh
+npm run build
+npm run assets:verify
+```
+
+GitHub is used only for the media fallback. Dependencies and existing license notices are retained. This package contains no Git history, credentials, migration reports, or bundled product media. Worker/decoder runtime code may remain local.
