@@ -5404,3 +5404,5 @@ html.is-loading .gl__projected-point {
   pointer-events: none;
   visibility: hidden;
 }
+
+.specs-dialog{position:fixed;inset:0 1.5rem 0 auto;margin:auto 0;max-width:min(28rem,calc(100vw - 3rem));max-height:80svh;overflow:auto;padding:2rem;background:rgba(5,13,21,.94);color:white;border:1px solid #ffffff30;border-radius:1rem;font-size:1rem}.specs-dialog::backdrop{background:#0004}.specs-dialog button{float:right;cursor:pointer}.specs-dialog h2{font-size:2rem;margin:1.5rem 0}.specs-dialog dt{margin-top:1.5rem;font-weight:600}.specs-dialog dd{margin:.5rem 0;opacity:.7}
